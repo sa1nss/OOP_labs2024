@@ -13,7 +13,7 @@ int main()
 
     Car cars[3] = { car1, car2, car3 };
 
-    for (int i = 0; i < 3; ++i) 
+    for (int i = 0; i < 3; ++i)
     {
         cars[i].printInfo();
     }
