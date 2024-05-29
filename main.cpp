@@ -1,110 +1,37 @@
 #include <iostream>
-#include <fstream>
-#include <vector>
-#include <algorithm>
+#include "drib.h"
 
 using namespace std;
 
-struct Car {
-    string manufacturer;
-    string model;
-    int year;
-    float mileage;
-};
+int main() 
+{
+    Fraction a(3, 4);
+    Fraction b(2, 3);
 
-void writeToFile(const Car& car) {
-    ofstream outFile("cars.bin", ios::binary | ios::app);
-    outFile.write(reinterpret_cast<const char*>(&car), sizeof(Car));
-    outFile.close();
-    cout << "Information about the car was recorded in a file." << endl;
-}
+    Fraction result1 = a - b;              
+    Fraction result2 = subtract(a, b);       
+    Fraction result3 = a / b;              
+    Fraction result4 = divide(a, b);        
 
-vector<Car> readFromFile() {
-    ifstream inFile("cars.bin", ios::binary);
-    vector<Car> cars;
-    Car temp;
-    while (inFile.read(reinterpret_cast<char*>(&temp), sizeof(Car))) {
-        cars.push_back(temp);
-    }
-    inFile.close();
-    return cars;
-}
+    bool comparison1 = a > b;                
+    bool comparison2 = greaterThan(a, b);   
+    bool comparison3 = a < b;                
+    bool comparison4 = lessThan(a, b);      
 
-void printCars(const vector<Car>& cars) {
-    cout << "List of cars:" << endl;
-    for (const auto& car : cars) {
-        cout << "Producer: " << car.manufacturer << ", Model: " << car.model << ", Year: " << car.year << ", Run: " << car.mileage << endl;
-    }
-}
+    Fraction incremented1 = ++a;            
+    Fraction incremented2 = b++;             
 
-void addCar(vector<Car>& cars) {
-    Car newCar;
-    cout << "Enter the manufacturer: ";
-    cin >> newCar.manufacturer;
-    cout << "Enter the model: ";
-    cin >> newCar.model;
-    cout << "Enter the year of release:";
-    cin >> newCar.year;
-    cout << "Enter mileage: ";
-    cin >> newCar.mileage;
-
-    cars.push_back(newCar);
-    writeToFile(newCar);
-}
-
-void deleteCar(vector<Car>& cars, int index) {
-    if (index >= 0 && index < cars.size()) {
-        cout << "Removed car: " << endl;
-        cout << "Producer: " << cars[index].manufacturer << ", Model: " << cars[index].model << ", Year: " << cars[index].year << ", Run: " << cars[index].mileage << endl;
-        cars.erase(cars.begin() + index);
-    }
-    else {
-        cout << "Invalid index." << endl;
-    }
-}
-
-void sortCarsByMileage(vector<Car>& cars) {
-    sort(cars.begin(), cars.end(), [](const Car& a, const Car& b) {
-        return a.mileage < b.mileage;
-        });
-    cout << "Sorting by mileage is complete." << endl;
-}
-
-int main() {
-    vector<Car> cars = readFromFile();
-    int choice;
-    do {
-        cout << "1. Add a car" << endl;
-        cout << "2. Remove the car" << endl;
-        cout << "3. Display a list of cars" << endl;
-        cout << "4. Sort cars by mileage" << endl;
-        cout << "0. Go out" << endl;
-        cout << "Your choice: ";
-        cin >> choice;
-
-        switch (choice) {
-        case 1:
-            addCar(cars);
-            break;
-        case 2:
-            int index;
-            cout << "Enter the vehicle index to be deleted: ";
-            cin >> index;
-            deleteCar(cars, index);
-            break;
-        case 3:
-            printCars(cars);
-            break;
-        case 4:
-            sortCarsByMileage(cars);
-            break;
-        case 0:
-            break;
-        default:
-            cout << "Wrong choice. Try again." << endl;
-            break;
-        }
-    } while (choice != 0);
+    cout << "a - b = " << result1 << endl;
+    cout << "subtract(a, b) = " << result2 << endl;
+    cout << "a / b = " << result3 << endl;
+    cout << "divide(a, b) = " << result4 << endl;
+    cout << "a > b = " << comparison1 << endl;
+    cout << "greaterThan(a, b) = " << comparison2 << endl;
+    cout << "a < b = " << comparison3 << endl;
+    cout << "lessThan(a, b) = " << comparison4 << endl;
+    cout << "++a = " << incremented1 << endl;
+    cout << "b++ = " << incremented2 << endl;
+    cout << "b after b++ = " << b << endl;
 
     return 0;
 }
